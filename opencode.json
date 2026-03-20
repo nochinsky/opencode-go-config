@@ -1,0 +1,64 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "orchestrator",
+  "model": "opencode-go/minimax-m2.7",
+  "small_model": "opencode-go/minimax-m2.5",
+  "autoupdate": true,
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 2048
+  },
+  "permission": {
+    "*": "ask",
+    "read": "allow",
+    "bash": {
+      "npm *": "allow",
+      "git *": "allow",
+      "ls": "allow",
+      "rm -rf *": "deny"
+    },
+    "websearch": "allow",
+    "external_directory": {
+      "~/.config/opencode/agents/**": "allow"
+    }
+  },
+  "agent": {
+    "orchestrator": {
+      "model": "opencode-go/minimax-m2.5",
+      "instructions": "Route to @build for edits, @plan for logic, @math for quant, and @docs for READMEs."
+    },
+    "build": {
+      "model": "opencode-go/minimax-m2.7",
+      "permission": { "edit": "allow" }
+    },
+    "plan": {
+      "model": "opencode-go/glm-5",
+      "options": { "reasoningEffort": "high" }
+    },
+    "math": {
+      "model": "opencode-go/kimi-k2.5"
+    },
+    "docs": {
+      "model": "opencode-go/minimax-m2.5"
+    }
+  },
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "environment": {
+        "GITHUB_TOKEN": "YOUR_GITHUB_TOKEN"
+      },
+      "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "environment": {
+        "CONTEXT7_API_KEY": "YOUR_CONTEXT7_API_KEY"
+      },
+      "enabled": true
+    }
+  }
+}
