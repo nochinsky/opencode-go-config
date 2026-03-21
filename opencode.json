@@ -25,21 +25,24 @@
   "agent": {
     "orchestrator": {
       "model": "opencode-go/minimax-m2.5",
+      "options": { "temperature": 0.1 },
       "instructions": "Route to @build for edits, @plan for logic, @math for quant, and @docs for READMEs."
     },
     "build": {
       "model": "opencode-go/minimax-m2.7",
+      "options": { "temperature": 0.2 },
       "permission": { "edit": "allow" }
     },
     "plan": {
       "model": "opencode-go/glm-5",
-      "options": { "reasoningEffort": "high" }
+      "options": { "temperature": 0.3, "reasoningEffort": "high" }
     },
     "math": {
       "model": "opencode-go/kimi-k2.5"
     },
     "docs": {
-      "model": "opencode-go/minimax-m2.5"
+      "model": "opencode-go/minimax-m2.5",
+      "options": { "temperature": 0.2 }
     }
   },
   "mcp": {
