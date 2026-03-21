@@ -24,7 +24,3 @@ Minimalist config for **OpenCode Go** subscribers ($10/mo). Orchestrator routes 
    * **Linux/Mac**: `~/.config/opencode/`
 2. **Add Keys**: Paste your `GITHUB_TOKEN` and `CONTEXT7_API_KEY` into `opencode.json`.
 3. **Launch**: Run `opencode`. The Orchestrator loads by default.
-
-## ⚠️ Security
-
-**Never commit `opencode.json` with real keys.** The `.gitignore` excludes it by default.
