@@ -1,8 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "orchestrator",
+  "default_agent": "manager",
   "model": "opencode-go/minimax-m2.7",
-  "small_model": "opencode-go/minimax-m2.5",
   "autoupdate": true,
   "compaction": {
     "auto": true,
@@ -11,36 +10,27 @@
   },
   "permission": {
     "*": "allow",
-    "bash": {
-      "npm *": "allow",
-      "git *": "allow",
-      "ls": "allow",
-      "rm -rf *": "deny"
-    },
-    "websearch": "allow",
     "external_directory": {
       "~/.config/opencode/agents/**": "allow"
     }
   },
   "agent": {
-    "orchestrator": {
-      "model": "opencode-go/minimax-m2.5",
-      "options": { "temperature": 0.1 },
-      "instructions": "Route to @build for edits, @plan for logic, @math for quant, and @docs for READMEs."
-    },
-    "build": {
+    "manager": {
       "model": "opencode-go/minimax-m2.7",
-      "options": { "temperature": 0.2 },
-      "permission": { "edit": "allow" }
+      "options": { "temperature": 0.4 }
     },
-    "plan": {
+    "core": {
+      "model": "opencode-go/minimax-m2.7",
+      "options": { "temperature": 0.2 }
+    },
+    "brain": {
       "model": "opencode-go/glm-5",
       "options": { "temperature": 0.3, "reasoningEffort": "high" }
     },
-    "math": {
+    "spark": {
       "model": "opencode-go/kimi-k2.5"
     },
-    "docs": {
+    "drone": {
       "model": "opencode-go/minimax-m2.5",
       "options": { "temperature": 0.2 }
     }
