@@ -1,54 +1,95 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "manager",
   "model": "opencode-go/minimax-m2.7",
+  "small_model": "opencode-go/minimax-m2.5",
   "autoupdate": true,
+
+  "permission": {
+    "webfetch": "deny",
+    "websearch": "deny"
+  },
+
+  "provider": {
+    "opencode-go": {
+      "options": {
+        "timeout": 300000,
+        "chunkTimeout": 3000,
+        "setCacheKey": true
+      }
+    }
+  },
+
   "compaction": {
     "auto": true,
     "prune": true,
-    "reserved": 2048
+    "reserved": 15000
   },
-  "permission": {
-    "*": "allow",
-    "external_directory": {
-      "~/.config/opencode/agents/**": "allow"
-    }
-  },
+
   "agent": {
-    "manager": {
+    "plan": {
+      "model": "opencode-go/kimi-k2.5",
+      "temperature": 0.1
+    },
+    "build": {
       "model": "opencode-go/minimax-m2.7",
-      "options": { "temperature": 0.4 }
+      "temperature": 0.3
     },
-    "core": {
-      "model": "opencode-go/minimax-m2.7",
-      "options": { "temperature": 0.2 }
-    },
-    "brain": {
-      "model": "opencode-go/glm-5",
-      "options": { "temperature": 0.3, "reasoningEffort": "high" }
-    },
-    "spark": {
-      "model": "opencode-go/kimi-k2.5"
-    },
-    "drone": {
+    "title": {
       "model": "opencode-go/minimax-m2.5",
-      "options": { "temperature": 0.2 }
+      "temperature": 1
+    },
+    "general": {
+      "model": "opencode-go/minimax-m2.7",
+      "temperature": 0.3
+    },
+    "explore": {
+      "model": "opencode-go/minimax-m2.5",
+      "temperature": 0
+    },
+    "summary": {
+      "model": "opencode-go/minimax-m2.5",
+      "temperature": 0
+    },
+    "compaction": {
+      "model": "opencode-go/minimax-m2.5",
+      "temperature": 0
+    },
+    "debug": {
+      "model": "opencode-go/glm-5",
+      "options": { "reasoningEffort": "high" },
+      "temperature": 0
     }
   },
+
   "mcp": {
+    "ddg-search": {
+      "type": "local",
+      "command": ["npx", "duckduckgo-mcp-server"],
+      "environment": {
+        "DDG_SAFE_SEARCH": "OFF",
+        "DDG_REGION": "wt-wt"
+      },
+      "enabled": true
+    },
+    "fetch": {
+      "type": "local",
+      "command": ["uvx", "mcp-server-fetch"],
+      "enabled": true
+    },
     "github": {
       "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "command": ["/home/ektor/bin/github-mcp-server", "stdio"],
       "environment": {
-        "GITHUB_TOKEN": "YOUR_GITHUB_TOKEN"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "GITHUB_TOOLSETS": "default"
       },
       "enabled": true
     },
     "context7": {
-      "type": "local",
-      "command": ["npx", "-y", "@upstash/context7-mcp"],
-      "environment": {
-        "CONTEXT7_API_KEY": "YOUR_CONTEXT7_API_KEY"
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "CONTEXT7_API_KEY"
       },
       "enabled": true
     }
